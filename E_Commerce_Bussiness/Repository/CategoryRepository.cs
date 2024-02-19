@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using E_Commerce_Bussiness.Repository.IRepository;
 using E_Commerce_DataAccess;
 using E_Commerce_DataAccess.Data;
 using E_Commerce_Models;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce_Bussiness.Repository.IRepository
+namespace E_Commerce_Bussiness.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {

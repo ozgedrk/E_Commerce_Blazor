@@ -1,15 +1,25 @@
+using E_Commerce_Bussiness.Repository;
 using E_Commerce_Bussiness.Repository.IRepository;
 using E_Commerce_DataAccess.Data;
 using E_Commerce_Server.Data;
+using E_Commerce_Server.Service;
+using E_Commerce_Server.Service.IService;
 //using Microsoft.AspNetCore.Components;
 //using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
+using Syncfusion.Blazor;
 
+//24.2.3 Syncfusion License Key Version.
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzEwNzA4M0AzMjM0MmUzMDJlMzBBNk93Rk01dW5lRzQ3VTBCdHB3UWxycnlmdVlKWnlaanBtZFFHVi9IRDZZPQ==");
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));//PATH
+builder.Services.AddSyncfusionBlazor();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IFileUpload, FileUpload>();
+builder.Services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

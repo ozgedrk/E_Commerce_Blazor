@@ -13,12 +13,19 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="19.4.0.56" />
+    <PackageReference Include="Syncfusion.Blazor.RichTextEditor" Version="19.4.0.56" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="19.4.0.56" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\E_Commerce_Bussiness\E_Commerce_Bussiness.csproj" />
     <ProjectReference Include="..\E_Commerce_DataAccess\E_Commerce_DataAccess.csproj" />
     <ProjectReference Include="..\E_Commerce_Models\E_Commerce_Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\product\" />
   </ItemGroup>
 
 </Project>
