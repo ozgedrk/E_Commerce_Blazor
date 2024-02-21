@@ -49,5 +49,20 @@ namespace E_Commerce_API.Controllers
             //});
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            var result = await _productRepository.GetProductByCategoryId(id);
+            if (result.Count == 0)
+            {
+                return BadRequest(new ErrorResponseDTO()
+                {
+                    ErrorMessage = "Product is not found",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+            }
+            return Ok(result);
+        }
+
     }
 }

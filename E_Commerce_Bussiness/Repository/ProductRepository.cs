@@ -48,7 +48,7 @@ namespace E_Commerce_Bussiness.Repository
         {
             var products = await _db.Products
                 .Include(x => x.Category)
-                .Include(x=>x.ProductPrices)
+                .Include(x => x.ProductPrices)
                 .ToListAsync();
 
             return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
@@ -59,13 +59,25 @@ namespace E_Commerce_Bussiness.Repository
         {
             var obj = await _db.Products
                 .Include(x => x.Category)
-                .Include(x=>x.ProductPrices)
+                .Include(x => x.ProductPrices)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (obj != null)
             {
                 return _mapper.Map<Product, ProductDTO>(obj);
             }
             return new ProductDTO();
+        }
+
+        public async Task<List<ProductDTO>> GetProductByCategoryId(int id)
+        {
+            var result = await _db.Products.Where(x => x.CategoryId == id).ToListAsync();
+            var objProd = _mapper.Map<List<Product>, List<ProductDTO>>(result);
+
+            if (objProd.Count > 0)
+            {
+                return objProd;
+            }
+            return new List<ProductDTO>();
         }
 
         public async Task<ProductDTO> Update(ProductDTO objDTO)

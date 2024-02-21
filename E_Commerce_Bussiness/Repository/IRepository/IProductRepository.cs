@@ -14,5 +14,6 @@ namespace E_Commerce_Bussiness.Repository.IRepository
         public Task<int> Delete(int id);
         public Task<ProductDTO> GetById(int id);//detay sayfasi icn
         public Task<IEnumerable<ProductDTO>> GetAll();// urunleri listeleme icin
+        public Task<List<ProductDTO>> GetProductByCategoryId(int id);
     }
 }
