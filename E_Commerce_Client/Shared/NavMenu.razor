@@ -1,14 +1,17 @@
 ﻿@using E_Commerce_Client.Service.IService;
 @using E_Commerce_Models;
 @inject ICategoryService _categoryService
+@inject ISyncLocalStorageService _localStorageService
+@inject ICartService _cartSerivce
+@implements IDisposable
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-         <a class="navbar-brand" href="/" style="color:orange" >Adventures</a>
+        <a class="navbar-brand" href="/" style="color:orange">Adventures</a>
         @foreach (var item in Categories)
         {
-                        <a class="navbar-brand" href="/category/products/@item.Id">@item.Name</a>
+            <a class="navbar-brand" href="/category/products/@item.Id">@item.Name</a>
         }
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -19,7 +22,7 @@
                 <li class="nav-item p-0">
                     <NavLink class="nav-link" href="/cart">
                         <span class="p-2">
-                            <strong>Basket</strong>
+                            <i class="bi bi-cart"></i>(@GetCartCount())
                         </span>
                     </NavLink>
                 </li>
@@ -63,10 +66,23 @@
 </nav>
 
 
-@code{
+@code {
     public IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
+    private List<ShoppingCart> ShoppingCarts { get; set; } = new List<ShoppingCart>();
     protected override async Task OnInitializedAsync()
     {
         Categories = await _categoryService.GetAll();
+        _cartSerivce.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        _cartSerivce.OnChange -= StateHasChanged;
+    }
+
+    private int GetCartCount()
+    {
+        var result = _localStorageService.GetItem<List<ShoppingCart>>(Keys.ShoppingCart);
+        return result == null ? 0 : result.Count;
     }
 }

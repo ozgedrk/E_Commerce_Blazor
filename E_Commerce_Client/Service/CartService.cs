@@ -12,6 +12,9 @@ namespace E_Commerce_Client.Service
         {
             _localStorageService = localStorageService;
         }
+
+        public event Action OnChange;
+
         public async Task DecrementItem(ShoppingCart shoppingCart)
         {
             var cart = await _localStorageService.GetItemAsync<List<ShoppingCart>>(Keys.ShoppingCart);
@@ -30,6 +33,7 @@ namespace E_Commerce_Client.Service
                 }
             }
             await _localStorageService.SetItemAsync(Keys.ShoppingCart, cart);
+            OnChange?.Invoke();
         }
 
         public async Task IncrementItem(ShoppingCart shoppingCart)
@@ -58,6 +62,7 @@ namespace E_Commerce_Client.Service
                 });
             }
             await _localStorageService.SetItemAsync(Keys.ShoppingCart, cart);
+            OnChange?.Invoke();
 
         }
     }
