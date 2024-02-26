@@ -103,7 +103,6 @@ else
 }
 
 
-
 @code {
     public bool IsProcessing { get; set; } = false;
     private List<ShoppingCart> ShoppingCart = new List<ShoppingCart>();
@@ -116,34 +115,53 @@ else
         Products = await _productService.GetAll();
         await LoadCart();
         IsProcessing = false;
-
     }
-
-
     private async Task LoadCart()
     {
-
         TotalPrice = 0;
         ShoppingCart = await _localStorageService.GetItemAsync<List<ShoppingCart>>(Keys.ShoppingCart);
+
         if (ShoppingCart != null)
         {
             foreach (var cart in ShoppingCart)
             {
-                cart.Product = Products.FirstOrDefault(x => x.Id == cart.ProductId);
-                cart.ProductPrice = cart.Product.ProductPrices.FirstOrDefault(x => x.Id == cart.ProductPriceId);
-                TotalPrice += (cart.ProductPrice.Price * cart.Count);
+                cart.Product = Products?.FirstOrDefault(x => x.Id == cart.ProductId);
+                // Product null kontrolü
+                if (cart.Product != null)
+                {
+                    // ProductPrices null kontrolü
+                    if (cart.Product.ProductPrices != null)
+                    {
+                        cart.ProductPrice = cart.Product.ProductPrices.FirstOrDefault(x => x.Id == cart.ProductPriceId);
+                        // ProductPrice null kontrolü
+                        if (cart.ProductPrice != null)
+                        {
+                            TotalPrice += (cart.ProductPrice.Price * cart.Count);
+                        }
+                        else
+                        {
+                            throw new Exception("Ürün fiyatı bulunamadı.");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Ürün fiyatları bulunamadı.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Ürün bulunamadı.");
+                }
             }
-
         }
-
-
         else
         {
             var result = new List<ShoppingCart>();
             await _localStorageService.SetItemAsync(Keys.ShoppingCart, result);
         }
-
     }
+
+
 
     private async Task Increment(int ProductId, int ProductPriceId, int Count)
     {
