@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using E_Commerce_DataAccess;
+using E_Commerce_DataAccess.Models;
 using E_Commerce_Models;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,12 @@ namespace E_Commerce_Bussiness.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Category,CategoryDTO>().ReverseMap();
-            CreateMap<Product,ProductDTO>().ReverseMap(); 
-            CreateMap<ProductPrice,ProductPriceDTO>().ReverseMap();
+            CreateMap<Category, CategoryDTO>().ReverseMap();
+            CreateMap<Product, ProductDTO>().ReverseMap();
+            CreateMap<ProductPrice, ProductPriceDTO>().ReverseMap();
+            CreateMap<OrderHeader, OrderHeaderDTO>().ReverseMap();
+            CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
+            CreateMap<Order, OrderDTO>().ReverseMap();
         }
     }
 }
