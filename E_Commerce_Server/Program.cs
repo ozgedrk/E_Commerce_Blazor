@@ -8,6 +8,7 @@ using E_Commerce_Server.Service.IService;
 //using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 using Syncfusion.Blazor;
+using Microsoft.AspNetCore.Identity;
 
 //24.2.3 Syncfusion License Key Version.
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzEwNzA4M0AzMjM0MmUzMDJlMzBBNk93Rk01dW5lRzQ3VTBCdHB3UWxycnlmdVlKWnlaanBtZFFHVi9IRDZZPQ==");
@@ -15,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));//PATH
+
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddSyncfusionBlazor();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -40,9 +43,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
-
 app.UseRouting();
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
