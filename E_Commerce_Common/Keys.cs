@@ -12,6 +12,8 @@ namespace E_Commerce_Common
         public const string Status_Confirmed = "ForSuccess";
         public const string Pending = "ForPending";
         public const string Status_Shipped = "ForShipped";
+        public const string Role_ForAdmin = "Admin";
+        public const string Role_ForCustomer = "Customer";
 
 
 
