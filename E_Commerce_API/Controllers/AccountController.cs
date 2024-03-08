@@ -127,12 +127,9 @@ namespace E_Commerce_API.Controllers
             return StatusCode(201);
 
         }
-
-
-
-
         private SigningCredentials GetSigningCredentials()
         {
+            Console.WriteLine(_apiSettings.SecretKey);
             var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_apiSettings.SecretKey));
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
@@ -157,3 +154,57 @@ namespace E_Commerce_API.Controllers
 
     }
 }
+
+        //[HttpPost("login")]
+        //public async Task<IActionResult> SignIn([FromBody] LoginRequestDTO loginDTO)
+        //{
+        //    if (loginDTO == null || !ModelState.IsValid)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var result = await _signInManager.PasswordSignInAsync(loginDTO.UserName, loginDTO.Password, false, false);
+        //    if (result.Succeeded)
+        //    {
+        //        var user = await _userManager.FindByNameAsync(loginDTO.UserName);
+        //        if (user == null)
+        //        {
+        //            return Unauthorized(new LoginResponseDTO()
+        //            {
+        //                IsAuthSuccess = false,
+        //                ErrorMessage = "Invalid Authentication",
+        //            });
+        //        }
+        //        var signInCredentials = GetSigningCredentials();
+        //        var claims = await GetClaims(user);
+
+        //        var tokenOptions = new JwtSecurityToken(
+        //                issuer: _apiSettings.ValidIssuer,
+        //                audience: _apiSettings.ValidAudience,
+        //                claims: claims,
+        //                expires: DateTime.Now.AddDays(1),
+        //                signingCredentials: signInCredentials);
+        //        var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+        //        return Ok(new LoginResponseDTO()
+        //        {
+        //            IsAuthSuccess = true,
+        //            Token = token,
+        //            UserDTO = new UserDTO()
+        //            {
+        //                Name = user.Name,
+        //                Id = user.Id,
+        //                Email = user.Email,
+        //                PhoneNumber = user.PhoneNumber
+        //            }
+        //        });
+        //    }
+        //    else
+        //    {
+        //        return Unauthorized(new LoginResponseDTO()
+        //        {
+        //            IsAuthSuccess = false,
+        //            ErrorMessage = "Invalid Auth Bro",
+        //        });
+        //    }
+        //    return StatusCode(201);
+
+        //}
