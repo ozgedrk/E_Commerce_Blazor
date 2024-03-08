@@ -2,7 +2,7 @@
 @using E_Commerce_DataAccess;
 @inject ILocalStorageService _localStorageService
 @inject IProductService _productService
-
+@attribute [Authorize]
 
 @if (IsProcessing)
 {

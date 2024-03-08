@@ -2,9 +2,10 @@
 using E_Commerce_Client.Service.IService;
 using E_Commerce_Common;
 using E_Commerce_Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json;
-using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Text;
 
 namespace E_Commerce_Client.Service
@@ -14,14 +15,13 @@ namespace E_Commerce_Client.Service
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorageService;
         private readonly AuthenticationStateProvider _authStateProvider;
-
         public AuthenticationService(HttpClient httpClient, ILocalStorageService localStorageService, AuthenticationStateProvider authStateProvider)
         {
-
             _httpClient = httpClient;
             _localStorageService = localStorageService;
             _authStateProvider = authStateProvider;
         }
+
         public async Task<LoginResponseDTO> LoginUser(LoginRequestDTO requestDTO)
         {
             var content = JsonConvert.SerializeObject(requestDTO);
@@ -36,15 +36,12 @@ namespace E_Commerce_Client.Service
                 ((CustomStateProvider)_authStateProvider).NotifyUserLoggedIn(result.Token);
                 _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", result.Token);
 
-
-
-                return new LoginResponseDTO() { IsAuthSuccess = true };
+                return new LoginResponseDTO() { IsAuthSuccess = true, };
             }
             else
             {
                 return result;
             }
-
         }
 
         public async Task LogOut()
@@ -65,7 +62,7 @@ namespace E_Commerce_Client.Service
             var result = JsonConvert.DeserializeObject<RegisterResponseDTO>(contentTemp);
             if (response.IsSuccessStatusCode)
             {
-                return new RegisterResponseDTO() { IsRegisterationSuccess = true };
+                return new RegisterResponseDTO { IsRegisterationSuccess = true };
             }
             else
             {

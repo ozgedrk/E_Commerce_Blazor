@@ -1,7 +1,7 @@
 ﻿@page "/register"
-
 @inject IAuthenticationService _authService
 @inject NavigationManager _navigationManager
+
 
 
 <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -12,22 +12,20 @@
                     <div class="card-body p-5">
                         <h2 class="text-uppercase text-center mb-5">Create an account</h2>
 
-                        <EditForm Model="RegisterRequest" OnInvalidSubmit="RegisterUser">
-                            <DataAnnotationsValidator>
-                                @if (ShowErrors)
-                                {
-                                    <div>
-                                        @foreach (var error in Errors)
-                                        {
-                                            <p class="text-danger text-center">@error</p>
-                                        }
-                                    </div>
-                                }
-                            </DataAnnotationsValidator>
-
-
+                        <EditForm Model="RegisterRequest" OnValidSubmit="RegisterUser">
+                            <DataAnnotationsValidator></DataAnnotationsValidator>
+                            @if (ShowErrors)
+                            {
+                                <div>
+                                    @foreach (var error in Errors)
+                                    {
+                                        <p class="text-danger text-center">@error</p>
+                                    }
+                                </div>
+                            }
                             <div class="form-outline mb-4">
                                 <label class="form-label" for="form3Example1cg">Your Name</label>
+
                                 <InputText id="form3Example1cg" class="form-control form-control-lg" @bind-Value=RegisterRequest.Name />
                                 <ValidationMessage For="()=>RegisterRequest.Name"></ValidationMessage>
                             </div>
@@ -38,21 +36,25 @@
                                 <ValidationMessage For="()=>RegisterRequest.Email"></ValidationMessage>
                             </div>
                             <div class="form-outline mb-4">
-                                <label class="form-label" for="form3Example4cdg">Your Phone Number</label>
+                                <label class="form-label" for="form3Example4cdg">Phone Number</label>
                                 <InputText id="form3Example1cg" class="form-control form-control-lg" @bind-Value=RegisterRequest.PhoneNumber />
                                 <ValidationMessage For="()=>RegisterRequest.PhoneNumber"></ValidationMessage>
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label" for="form3Example4cg">Password</label>
-                                <InputText id="form3Example1cg" class="form-control form-control-lg" @bind-Value=RegisterRequest.Password />
+                                <InputText type="password" id="form3Example1cg" class="form-control form-control-lg" @bind-Value=RegisterRequest.Password />
                                 <ValidationMessage For="()=>RegisterRequest.Password"></ValidationMessage>
+
                             </div>
 
                             <div class="form-outline mb-4">
                                 <label class="form-label" for="form3Example4cdg">Repeat your password</label>
-                                <InputText id="form3Example1cg" class="form-control form-control-lg" @bind-Value=RegisterRequest.ConfirmPassword />
+                                <InputText type="password" id="form3Example1cg" class="form-control form-control-lg" @bind-Value=RegisterRequest.ConfirmPassword />
                                 <ValidationMessage For="()=>RegisterRequest.ConfirmPassword"></ValidationMessage>
                             </div>
+
+
+
 
                             <div class="d-flex justify-content-center">
                                 <button type="submit"
@@ -72,6 +74,7 @@
                             </p>
 
                         </EditForm>
+
                     </div>
                 </div>
             </div>
@@ -80,16 +83,15 @@
 </div>
 
 
-
 @code {
     private RegisterRequestDTO RegisterRequest = new();
-    public bool IsProccessing { get; set; } = false;
+    public bool IsProcesing { get; set; } = false;
     public bool ShowErrors { get; set; }
     public IEnumerable<string> Errors { get; set; }
     private async Task RegisterUser()
     {
         ShowErrors = false;
-        IsProccessing = true;
+        IsProcesing = true;
         var result = await _authService.RegisterUser(RegisterRequest);
         if (result.IsRegisterationSuccess)
         {
@@ -101,6 +103,4 @@
             ShowErrors = true;
         }
     }
-
-
 }
