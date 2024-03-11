@@ -19,6 +19,9 @@ namespace E_Commerce_Common
         public const string Local_Token = "ForLocalToken";
         public const string Local_UserDetails = "ForLocalUserDetails";
 
+        public const string Local_OrderDetails = "ForOrderDetails";
+
+
 
 
     }

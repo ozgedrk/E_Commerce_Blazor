@@ -3,6 +3,7 @@ using E_Commerce_Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Stripe.Checkout;
 
 namespace E_Commerce_API.Controllers
 {
@@ -46,5 +47,34 @@ namespace E_Commerce_API.Controllers
             var result = await _orderRepository.GetAll();
             return Ok(result);
         }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> Create([FromBody] StripePaymentDTO paymentDTO)
+        {
+            paymentDTO.Order.OrderHeader.OrderDate = DateTime.Now;
+            var result = await _orderRepository.Create(paymentDTO.Order);
+            return Ok(result);
+        }
+
+        [HttpPost("paymentSuccessfull")]
+        public async Task<IActionResult> PaymentSuccessfull([FromBody] OrderHeaderDTO orderHeaderDTO)
+        {
+            var service = new SessionService();
+            var sessionDetails = service.Get(orderHeaderDTO.SessionId);
+            if (sessionDetails.PaymentStatus == "paid")
+            {
+                var result = await _orderRepository.MarkPaymentSuccess(orderHeaderDTO.Id);
+                if (result == null)
+                {
+                    return BadRequest(new ErrorResponseDTO()
+                    {
+                        ErrorMessage = "Can not mark paayment as successfull",
+                    });
+                }
+                return Ok(result);
+            }
+            return BadRequest();
+        }
+
     }
 }
