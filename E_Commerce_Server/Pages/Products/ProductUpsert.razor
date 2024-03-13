@@ -30,7 +30,7 @@
                     <ValidationMessage For="(()=>Product.Name)"></ValidationMessage>
                 </div>
                 <div class="form-group">
-                    <label>Author</label>
+                    <label>Brand</label>
                     <InputText @bind-Value="Product.Author"></InputText>
                     <ValidationMessage For="(()=>Product.Author)"></ValidationMessage>
                 </div>
@@ -119,7 +119,7 @@
         {
             if (OldImageUrl != Product.ImageUrl)
             {
-                _fileUpload.DeleteFile(OldImageUrl);   
+                _fileUpload.DeleteFile(OldImageUrl);
             }
             var result = await _productRepository.Update(Product);
         }

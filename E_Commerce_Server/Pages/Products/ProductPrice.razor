@@ -19,7 +19,7 @@ else
         <div class="col-11">
             <div class="card-body">
                 <h4>@Product.Name</h4>
-                <span>Category: @Product.Category.Name</span> <br/>
+                <span>Category: @Product.Category.Name</span> <br />
                 Description : <span>@((MarkupString)Product.Description)</span>
             </div>
         </div>
@@ -29,7 +29,7 @@ else
     </div>
 
     <SfGrid @ref="productPriceGrid" DataSource="@ProductPrices" AllowPaging="true" AllowFiltering="true" AllowSorting="true"
-        Toolbar="@(new List<string>{"Add","Edit","Update","Delete","Cancel"})">
+            Toolbar="@(new List<string>{"Add","Edit","Update","Delete","Cancel"})">
         <GridEditSettings AllowAdding="true" AllowEditing="true" ShowDeleteConfirmDialog="true" AllowDeleting="true"></GridEditSettings>
         <GridEvents OnActionBegin="ActionHandler" TValue="ProductPriceDTO"></GridEvents>
         <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
@@ -41,7 +41,7 @@ else
         <GridPageSettings PageSize="5" PageCount="5" PageSizes="true"></GridPageSettings>
         <GridColumns>
             <GridColumn IsPrimaryKey="true" AllowAdding="false" Field=@nameof(ProductPriceDTO.Id) HeaderText="ID"></GridColumn>
-            <GridColumn Field=@nameof(ProductPriceDTO.Publisher) HeaderText="PublisherList"> </GridColumn>
+            <GridColumn Field=@nameof(ProductPriceDTO.Publisher) HeaderText="BrandList"> </GridColumn>
             <GridColumn Field=@nameof(ProductPriceDTO.Price) HeaderText="Price" Format="C2"></GridColumn>
             <GridColumn HeaderText="Manage Records" Width="150">
                 <GridCommandColumns>
