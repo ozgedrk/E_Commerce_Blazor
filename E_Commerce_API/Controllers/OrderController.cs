@@ -12,9 +12,11 @@ namespace E_Commerce_API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderRepository _orderRepository;
+        //private readonly IMailHelper _mailHelper;
         public OrderController(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
+            // _mailHelper = mailHelper;
         }
 
 
@@ -68,9 +70,11 @@ namespace E_Commerce_API.Controllers
                 {
                     return BadRequest(new ErrorResponseDTO()
                     {
-                        ErrorMessage = "Can not mark paayment as successfull",
+                        ErrorMessage = "Can not mark payment as successfull",
                     });
                 }
+                //_mailHelper.SendEmailForOrder("Siparişiniz Alındı"
+                // , $"{orderHeaderDTO.SessionId} numaralı siparişiniz alındı,bizi tercih ettiğiniz için teşekkür ederiz", orderHeaderDTO.Email);
                 return Ok(result);
             }
             return BadRequest();

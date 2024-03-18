@@ -118,6 +118,10 @@ else
     }
     private async Task LoadCart()
     {
+        if (ShoppingCart != null)
+        {
+
+        }
         TotalPrice = 0;
         ShoppingCart = await _localStorageService.GetItemAsync<List<ShoppingCart>>(Keys.ShoppingCart);
 

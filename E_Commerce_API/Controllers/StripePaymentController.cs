@@ -23,6 +23,9 @@ namespace E_Commerce_API.Controllers
         {
             try
             {
+
+                var adress = "";
+                var adress1 = "";
                 var domain = _configuration.GetValue<string>("E_Commerce_URL");
                 var options = new SessionCreateOptions
                 {
@@ -32,6 +35,8 @@ namespace E_Commerce_API.Controllers
                     Mode = "payment",
                     PaymentMethodTypes = new List<string> { "card" }
                 };
+                adress = options.SuccessUrl;
+                adress1 = options.CancelUrl;
                 foreach (var item in paymentDTO.Order.OrderDetails)
                 {
                     var sessionLineItem = new SessionLineItemOptions
@@ -39,12 +44,12 @@ namespace E_Commerce_API.Controllers
                         PriceData = new SessionLineItemPriceDataOptions
                         {
                             UnitAmount = (long)(item.Price * 100),
-                            Currency = "try",
+                            Currency = "usd",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
                                 Name = item.Product.Name
+                            },
 
-                            }
                         },
                         Quantity = item.Count
                     };
