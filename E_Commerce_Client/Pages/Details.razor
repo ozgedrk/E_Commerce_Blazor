@@ -1,8 +1,11 @@
 ﻿@page "/product/{Id:int}"
+@using E_Commerce_Client.Helper;
 @inject IProductService _productService
 @inject ICartService _cartService
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
+
+
 <head>
     <title>Ürün Detay Sayfası</title>
 </head>
@@ -101,7 +104,7 @@ else
                 ProductPriceId = DetailsVM.SelectedProductPriceId,
             };
         await _cartService.IncrementItem(shopCart);
-        //     await _jsRuntime.ToastrSuccess("Ürün başarıyla sepete eklendi");
+       // await _jsRuntime.ToastrSuccess("Ürün başarıyla sepete eklendi");
         _navigationManager.NavigateTo("/");
 
     }

@@ -20,6 +20,7 @@ namespace E_Commerce_Bussiness.Mapping
             CreateMap<OrderHeader, OrderHeaderDTO>().ReverseMap();
             CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
             CreateMap<Order, OrderDTO>().ReverseMap();
+            CreateMap<Discount, DiscountDTO>().ReverseMap();
         }
     }
 }

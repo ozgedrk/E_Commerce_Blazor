@@ -11,7 +11,6 @@ namespace E_Commerce_API.Controllers
     public class StripePaymentController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-
         public StripePaymentController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -21,6 +20,9 @@ namespace E_Commerce_API.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] StripePaymentDTO paymentDTO)
         {
+
+
+
             try
             {
 
@@ -43,7 +45,7 @@ namespace E_Commerce_API.Controllers
                     {
                         PriceData = new SessionLineItemPriceDataOptions
                         {
-                            UnitAmount = (long)(item.Price * 100),
+                            UnitAmount = (long)(item.Price * 100) - ((long)(item.Price * 100) * paymentDTO.Discount) / 100,
                             Currency = "usd",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
@@ -57,14 +59,19 @@ namespace E_Commerce_API.Controllers
                 }
                 var service = new SessionService();
                 Session session = service.Create(options);
+
                 return Ok(new SuccessResponseDTO()
                 {
                     Data = session.Id + ";" + session.PaymentIntentId
                 });
+
+
+
+
+
             }
             catch (Exception ex)
             {
-
                 return BadRequest(new ErrorResponseDTO()
                 {
                     ErrorMessage = ex.Message
