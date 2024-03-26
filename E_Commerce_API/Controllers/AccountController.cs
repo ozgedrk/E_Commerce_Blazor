@@ -73,6 +73,16 @@ namespace E_Commerce_API.Controllers
 
         }
 
+       // [HttpGet("/login")]
+       // public async Task<IActionResult> Login()
+       // {
+
+       //     if (User.Identity!.IsAuthenticated)
+       //     {
+       //         return RedirectToAction("Index");
+       //     }
+       //     return RedirectToAction("Login");
+       //}
 
         [HttpPost("login")]
         public async Task<IActionResult> SignIn([FromBody] LoginRequestDTO loginDTO)
